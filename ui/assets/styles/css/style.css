@@ -8408,3 +8408,11 @@ li {
   margin: 0;
   padding: 0;
 }
+
+.w-name{
+  width: 200px;
+  /* height:  */
+}
+.w-strong{
+  font-weight: 700;
+}
