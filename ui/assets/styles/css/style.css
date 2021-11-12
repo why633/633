@@ -385,6 +385,7 @@ body.is-firefox .js-view-icon {
 .js-spiral-line {
   background-image: url(../../images/pattern.png);
   background-size: calc(80px + 8vw);
+  opacity: 0.3;
 }
 .js-eye-lid {
   transition: .2s;
