@@ -1,6 +1,6 @@
 var spiraling = false;
 var rotation = 0;
-$(function() {
+$(function () {
 
   var WIN = $(window);
   var BODY = $("body");
@@ -32,50 +32,50 @@ $(function() {
   var mobileSafari;
 
   var standalone = window.navigator.standalone,
-      userAgent = window.navigator.userAgent.toLowerCase(),
-      safari = userAgent.indexOf('safari') != -1 && userAgent.indexOf('chrome') == -1,
-      firefox = userAgent.indexOf('firefox') != -1 || userAgent.indexOf('mozilla') == -1,
-      ios = /iphone|ipod|ipad/.test( userAgent ),
-      linux = userAgent.indexOf('linux') != -1,
-      windows = userAgent.indexOf('windows') != -1;
+    userAgent = window.navigator.userAgent.toLowerCase(),
+    safari = userAgent.indexOf('safari') != -1 && userAgent.indexOf('chrome') == -1,
+    firefox = userAgent.indexOf('firefox') != -1 || userAgent.indexOf('mozilla') == -1,
+    ios = /iphone|ipod|ipad/.test(userAgent),
+    linux = userAgent.indexOf('linux') != -1,
+    windows = userAgent.indexOf('windows') != -1;
 
 
   if (firefox) {
     BODY.addClass('is-firefox');
   }
-  if( ios ) {
-      safari = true;
-      if ( !standalone && safari ) {
-          mobileSafari = true;
+  if (ios) {
+    safari = true;
+    if (!standalone && safari) {
+      mobileSafari = true;
 
-      } else if ( standalone && !safari ) {
-          // STANDALONE
+    } else if (standalone && !safari) {
+      // STANDALONE
 
-      } else if ( !standalone && !safari ) {
-          // UIWEBVIEW
+    } else if (!standalone && !safari) {
+      // UIWEBVIEW
 
-      };
+    };
   }
 
-  setTimeout(function(){
+  setTimeout(function () {
     $('.js-overlay ').css({
       display: 'none'
     })
-  },5000)
+  }, 5000)
 
-  WIN.on('touchstart',function(){
+  WIN.on('touchstart', function () {
     isTouchDevice = true;
   })
 
   resizeHandler();
 
-// EVENTS
-/////////
+  // EVENTS
+  /////////
 
   // UTIL EVENTS
-  WIN.on('resize',resizeHandler);
+  WIN.on('resize', resizeHandler);
 
-  WIN.on('mousewheel', function(e) {
+  WIN.on('mousewheel', function (e) {
     if (!accessible) {
       var deltaY = e.deltaY;
       if (windows || linux) {
@@ -93,7 +93,7 @@ $(function() {
     }
   });
 
-  WIN.on('touchstart', function(e) {
+  WIN.on('touchstart', function (e) {
     if (!accessible) {
       var touch = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
       moved = 0;
@@ -103,7 +103,7 @@ $(function() {
       cancelAnimationFrame(animRAF);
     }
   })
-  WIN.on('touchmove', function(e) {
+  WIN.on('touchmove', function (e) {
     if (!accessible) {
       if (!BODY.hasClass('is-gallery')) {
         e.preventDefault()
@@ -120,7 +120,7 @@ $(function() {
       }
     }
   });
-  WIN.on('touchend', function(e) {
+  WIN.on('touchend', function (e) {
     if (!accessible) {
       if (prevMoved > 15) {
         animateScroll((currentSection + 1) * -90, rotation)
@@ -129,12 +129,12 @@ $(function() {
       }
     }
   })
-  WIN.on('scroll',function(e) {
+  WIN.on('scroll', function (e) {
 
   })
-  WIN.on('mousemove',mousemoveHandler)
+  WIN.on('mousemove', mousemoveHandler)
 
-  WIN.on('keydown',function(e) {
+  WIN.on('keydown', function (e) {
     if (e.keyCode === 39 || e.keyCode === 40 || e.keyCode === 32) {
       cancelAnimationFrame(animRAF);
       animateScroll((currentSection + 1) * -90, rotation)
@@ -148,18 +148,18 @@ $(function() {
     }
     scrollHandler()
   })
-  WIN.on('keyup',function(e){
+  WIN.on('keyup', function (e) {
     $('.js-arc').css({
       display: 'none'
     })
   })
 
-  $('#canvas').on('click',function(){
+  $('#canvas').on('click', function () {
     clearTimeout(showLineTimeout)
-    animateScroll(0,rotation)
+    animateScroll(0, rotation)
   })
 
-  $('.js-skip').on('click',function(){
+  $('.js-skip').on('click', function () {
     if (!accessible) {
       accessible = "somewhat";
       BODY.addClass('is-more-accessible')
@@ -172,20 +172,20 @@ $(function() {
     }
   })
 
-  $('.js-scroll').on('click',function(e){
-    animateScroll((currentSection + 1) * -90,rotation)
+  $('.js-scroll').on('click', function (e) {
+    animateScroll((currentSection + 1) * -90, rotation)
     e.stopPropagation()
   })
-  sections.on('click',function() {
+  sections.on('click', function () {
     cancelAnimationFrame(animRAF)
-    animateScroll($(this).index() * -90,rotation);
+    animateScroll($(this).index() * -90, rotation);
   })
 
-  $('.js-gallery-description-box').on('click',function(e) {
+  $('.js-gallery-description-box').on('click', function (e) {
     e.stopPropagation()
   })
 
-  $('.js-project-cta').on('click', function(e) {
+  $('.js-project-cta').on('click', function (e) {
     if ($(this).parent().parent().hasClass('active')) {
       e.stopPropagation()
       document.body.scrollTop = 0;
@@ -193,52 +193,57 @@ $(function() {
       $('.js-gallery-description').html($('.js-section.active .js-description').html())
       $('.js-gallery-title').html($('.js-section.active .js-section-title').html())
       moveCloseIcon(e);
-      $('.js-gallery img').attr('src','')
-      for (var i=1;i<=4;i++) {
-        $('.js-gallery img').eq(i-1).attr('src','ui/assets/images/projects/' + currentSectionName + i + '.jpg')
-      }
+      $('.js-gallery img').attr('src', '')
+      $('.js-gallery img').eq(0).attr('src', 'ui/assets/images/projects/' + currentSectionName + '.jpg')
+      // for (var i=1;i<=4;i++) {
+      //   $('.js-gallery img').eq(i-1).attr('src','ui/assets/images/projects/' + currentSectionName + i + '.jpg')
+      // }
     }
   })
   var viewInterval;
-  $('.js-project-cta').on('mouseenter',function(){
+  $('.js-project-cta').on('mouseenter', function () {
     var i = 0;
     var text = "Open";
     var viewText = $('.js-view-text', this)
     viewText.text('');
     clearInterval(viewInterval)
-    viewInterval = setInterval(function(){
+    viewInterval = setInterval(function () {
       if (i > text.length) {
         clearInterval(viewInterval)
       } else {
-        viewText.text(viewText.text() + text.substr(i,1))
+        viewText.text(viewText.text() + text.substr(i, 1))
       }
       i++;
-    },60)
+    }, 60)
   })
-  $('.js-project-cta').on('mouseleave',function(){
+  $('.js-project-cta').on('mouseleave', function () {
     var i = 0;
-    var text = "View";
+    var text = "查看";
     var viewText = $('.js-view-text', this)
     viewText.text('');
     clearInterval(viewInterval)
-    viewInterval = setInterval(function(){
+    viewInterval = setInterval(function () {
       if (i > text.length) {
         clearInterval(viewInterval)
       } else {
-        viewText.text(viewText.text() + text.substr(i,1))
+        viewText.text(viewText.text() + text.substr(i, 1))
       }
       i++;
-    },60)
+    }, 60)
   })
-  $('.js-gallery').on('click', function() {
+  $('.js-gallery').on('click', function () {
     BODY.removeClass('is-gallery');
   })
-  $('.js-close-icon').on('click', function() {
+  $('.js-close-icon').on('click', function () {
     BODY.removeClass('is-gallery');
+    // 隐藏js-close-icon
+    $('.js-close-icon').css({
+      display: 'none'
+    })
   })
 
-// FUNCTIONS
-////////////
+  // FUNCTIONS
+  ////////////
   function animateScroll(targR, startR, speed) {
     if (!accessible) {
       var distance = startR - targR;
@@ -248,12 +253,12 @@ $(function() {
           rotation += mySpeed * (targR - rotation);
         } else {
           moved *= .98;
-          rotation += moved/-10;
+          rotation += moved / -10;
         }
         rotation = trimRotation();
         scrollHandler();
-        animRAF = requestAnimationFrame(function(){
-          animateScroll(targR,startR,speed)
+        animRAF = requestAnimationFrame(function () {
+          animateScroll(targR, startR, speed)
         });
       } else if (targR || Math.abs(targR) === 0) {
         cancelAnimationFrame(animRAF)
@@ -267,9 +272,9 @@ $(function() {
   }
   function scrollHandler() {
     if (!accessible) {
-      requestAnimationFrame(function(){
-        var scale = Math.pow(aspect,rotation/90);
-        currentSection = Math.min(21,Math.max(-16,Math.floor((rotation-30)/-90)));
+      requestAnimationFrame(function () {
+        var scale = Math.pow(aspect, rotation / 90);
+        currentSection = Math.min(21, Math.max(-16, Math.floor((rotation - 30) / -90)));
         if (currentSection < 20 && currentSection > -15) {
           $('body').addClass('is-false')
           spiral.css({
@@ -283,8 +288,8 @@ $(function() {
           }
           $('.js-current').text(currentNum);
           currentSectionName = sections.eq(currentSection).data('project')
-          var bg = bgColorsArray[currentSection-1]
-          var color = colorsArray[currentSection-1]
+          var bg = bgColorsArray[currentSection - 1]
+          var color = colorsArray[currentSection - 1]
           BODY.css({
             backgroundColor: color,
             color: bg
@@ -343,7 +348,7 @@ $(function() {
           $('.js-nav svg path').css({
             fill: color
           })
-          for (var i=0;i<sectionCount;i++) {
+          for (var i = 0; i < sectionCount; i++) {
             if (i - currentSection < -1) {
               sections.eq(i).css({
                 display: 'none'
@@ -394,13 +399,18 @@ $(function() {
   function moveCloseIcon(e) {
     if (!smallScreen) {
       $('.js-close-icon').css({
-        transform: 'translate3d(' + Math.floor(e.pageX - 24) + 'px,' + Math.min($('.js-gallery-description-box').offset().top - 30 - BODY.scrollTop(),Math.floor(e.pageY - BODY.scrollTop() - 24)) + 'px,0)',
-        right: 'auto'
+        // transform: 'translate3d(' + Math.floor(e.pageX - 24) + 'px,' + Math.min($('.js-gallery-description-box').offset().top - 30 - BODY.scrollTop(),Math.floor(e.pageY - BODY.scrollTop() - 24)) + 'px,0)',
+        // transform: 'translate3d(' + Math.floor(e.pageX - 24) + 'px,' + Math.floor(e.pageY - 24) + 'px,0)',
+        // right: 'auto'
+        display: 'block',
+        top: e.pageY - $('.js-gallery-description-box').offset().top + 'px',
+        left: e.pageX
       })
     }
   }
 
   function mousemoveHandler(e) {
+    console.log(e.pageY, e.pageX);
     if (!accessible) {
       if (BODY.hasClass('is-gallery') && !smallScreen) {
         moveCloseIcon(e);
@@ -412,24 +422,26 @@ $(function() {
         var lid = $('.js-eye-lid', currentSectionEl)
         if (retina.offset()) {
           retina.css({
-            transform: 'translate3d(' + (1-e.pageX/retina.offset().left)*-6 + 'px,' + (1-e.pageY/retina.offset().top)*-6 + 'px,0)'
+            transform: 'translate3d(' + (1 - e.pageX / retina.offset().left) * -6 + 'px,' + (1 - e.pageY / retina.offset().top) * -6 + 'px,0)'
           })
           pupil.css({
-            transform: 'translate3d(' + (1-e.pageX/retina.offset().left)*-7 + 'px,' + (1-e.pageY/retina.offset().top)*-7 + 'px,0)'
+            transform: 'translate3d(' + (1 - e.pageX / retina.offset().left) * -7 + 'px,' + (1 - e.pageY / retina.offset().top) * -7 + 'px,0)'
           })
           highlight.css({
-            transform: 'translate3d(' + (1-e.pageX/retina.offset().left)*-2 + 'px,' + (1-e.pageY/retina.offset().top)*-2 + 'px,0)'
+            transform: 'translate3d(' + (1 - e.pageX / retina.offset().left) * -2 + 'px,' + (1 - e.pageY / retina.offset().top) * -2 + 'px,0)'
           })
           lid.css({
-            transform: 'scaleY(' +  Math.abs(1+Math.max(0,(1-Math.abs(e.pageY/retina.offset().top))*.2)) + ')'
+            transform: 'scaleY(' + Math.abs(1 + Math.max(0, (1 - Math.abs(e.pageY / retina.offset().top)) * .2)) + ')'
           })
         }
       }
     }
   }
 
-  function resizeHandler () { // Set the size of images and preload them
+  function resizeHandler() { // Set the size of images and preload them
     _winW = window.innerWidth;
+    console.log('_winW', _winW);
+
     _winH = window.innerHeight;
     smallScreen = _winW < 960;
     landscape = _winH < _winW;
@@ -438,13 +450,13 @@ $(function() {
     }
   }
   function buildSpiral() {
-    spiralOrigin = Math.floor(_winW * axis) + 'px ' + Math.floor(_winW * aspect * axis) +'px';
-    var sectionOrigin = Math.floor(_winW * axis) + 'px ' + Math.floor(_winW * aspect * axis) +'px';
+    spiralOrigin = Math.floor(_winW * axis) + 'px ' + Math.floor(_winW * aspect * axis) + 'px';
+    var sectionOrigin = Math.floor(_winW * axis) + 'px ' + Math.floor(_winW * aspect * axis) + 'px';
     var w = _winW * aspect;
     var h = _winW * aspect;
     if (smallScreen && !landscape) {
-      spiralOrigin = Math.floor((_winW/aspect) * aspect * (1 - axis)) +'px ' + Math.floor((_winW/aspect) * axis) + 'px ';
-      sectionOrigin = Math.floor((_winW/aspect) * aspect * (1 - axis)) +'px ' + Math.floor((_winW/aspect) * axis) + 'px ';
+      spiralOrigin = Math.floor((_winW / aspect) * aspect * (1 - axis)) + 'px ' + Math.floor((_winW / aspect) * axis) + 'px ';
+      sectionOrigin = Math.floor((_winW / aspect) * aspect * (1 - axis)) + 'px ' + Math.floor((_winW / aspect) * axis) + 'px ';
       w = _winW;
       h = _winW;
     }
@@ -466,12 +478,12 @@ $(function() {
     })
     $('.js-total').text(sectionCount)
 
-    sections.each(function(i){
+    sections.each(function (i) {
       if ($('.js-dot').length < sectionCount) {
         var dot = $('.js-dot').eq(0).clone()
         $('.js-dots').append(dot)
       }
-      var myRot = Math.floor(90*i);
+      var myRot = Math.floor(90 * i);
       var scale = Math.pow(aspect, i);
       $(this).css({
         width: w,
@@ -497,19 +509,19 @@ $(function() {
       transition: '2s ease',
       strokeDashoffset: 0
     })
-    setTimeout(function(){
+    setTimeout(function () {
       BODY.addClass('is-in')
-    },1000)
+    }, 1000)
 
   }
 
-  function startScrollTimeout () {
+  function startScrollTimeout() {
     clearTimeout(showLineTimeout)
     if (currentSection > -1 && currentSection < sectionCount) {
-      showLineTimeout = setTimeout(function(){
+      showLineTimeout = setTimeout(function () {
         cancelAnimationFrame(animRAF);
         animateScroll(currentSection * -90, rotation, .15);
-      },200);
+      }, 200);
     }
   }
 })

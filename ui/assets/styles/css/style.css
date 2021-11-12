@@ -488,8 +488,9 @@ body.is-firefox .js-view-icon {
   cursor: auto !important;
 }
 .is-gallery .js-close-icon {
-  right: 0;
-  left: auto !important;
+  /* right: 0; */
+  /* left: auto !important; */
+  display: none;
 }
 .is-spiraling .js-message {
   opacity: 1;
@@ -8415,4 +8416,17 @@ li {
 }
 .w-strong{
   font-weight: 700;
+}
+
+.w-img-box{
+  width: 100vw;
+  height: auto;
+}
+.w-img-box img{
+  width: 1080px;
+  margin: 0 auto;
+}
+
+.w-none{
+  display: none;
 }
