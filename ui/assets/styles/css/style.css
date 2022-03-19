@@ -8196,6 +8196,15 @@ body.is-firefox .js-view-icon {
 .bg-light-green {
   background: #E7FBE2;
 }
+.bg-new1 {
+  background: #2B9E7E;
+}
+.bg-new2 {
+  background: #F8E71C;
+}
+.bg-new3 {
+  background: #FF2040;
+}
 .bg-cash {
   background: #25cb50;
 }
